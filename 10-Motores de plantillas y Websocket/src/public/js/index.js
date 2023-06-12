@@ -12,6 +12,7 @@ const renderProduct = (productData) => {
             <h5 class="card-title">${productinfo.title}</h5>
             <h6 class="card-subtitle mb-2 text-body-secondary">$${productinfo.price} </h6>
             <p class="card-text">${productinfo.description}</p>
+            <p class="card-text">Stock:${productinfo.stock}</p>
             <a href="#" class="btn btn-primary">Comprar</a>
             <a href="#" class="btn btn-danger" onclick=eliminarId(${productinfo.id}) " >Eliminar</a>
         </div>
