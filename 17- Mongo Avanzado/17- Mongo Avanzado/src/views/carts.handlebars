@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row">
+<h1>Carrito de compras</h1>
+        <div class="col my-2">
+            <div class="card text-center" style="width: 12rem;">
+                <p class="card-text">Detalle del carrito: {{cart._id}}</p>
+                    {{#each cart.carts}}
+                    <div class="product">
+                        <img src="{{this.products.thumbnails}}" width="150" alt="">
+                        <h2 class="card-title">{{this.products.title}}</h2>
+                        <p class="card-text">Cantidad: {{this.quantity}}</p>
+                        <div class="card-body">
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteProduct('{{_id}}, '{{this.product._id}}')">Quitar del carrito</button>
+                    </div>
+                    {{/each}}
+
+</div>
+</div>
+</div>
+</div>

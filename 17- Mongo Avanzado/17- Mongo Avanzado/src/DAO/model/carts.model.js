@@ -21,7 +21,5 @@ const cartsSchema = new mongoose.Schema({
 cartsSchema.pre(`find`, function () {
   this.populate(`carts.products`);
 });
-// AGREGAR MIDDLEWARE PRE  Y CONFIGURAR EL FIND
-// AGREGAR PAGINACION EL PLUGGIN
 
 export const cartModel = mongoose.model(cartsCollection, cartsSchema);
