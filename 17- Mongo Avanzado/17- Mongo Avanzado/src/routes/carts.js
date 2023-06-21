@@ -16,7 +16,7 @@ cartsRouter.get("/:cid", async (req, res) => {
   try {
     const id = req.params.cid;
     const response = await cartDao.getCartsById(id);
-    res.send(response);
+    res.send( response );
   } catch (error) {
     res.status(404).send({ error: 'El carrito no existe' });
   }
@@ -24,7 +24,8 @@ cartsRouter.get("/:cid", async (req, res) => {
 
 //POST
 cartsRouter.post("/", async (req, res) => {
-  res.send(await cartDao.addCarts());
+  await cartDao.addCarts()
+  res.status(200).send({status:'Se agrego correctamente un carrito'} );
   /*  res.send(await cart.addCarts()); */
 });
 
@@ -44,6 +45,10 @@ try {
 cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
   let cartId = req.params.cid;
   let productId = req.params.pid;
+  const response = await cartDao.deleteProductToCart(cartId, productId)
+  if (response!== "no existe ese producto"){
+    res.status(200).send({status:`Se borro correctamente una cantidad del producto ${productId}`}  )
+  }
   res.send(await cartDao.deleteProductToCart(cartId, productId));
 });
 

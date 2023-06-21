@@ -62,8 +62,16 @@ const data = {
   prevLink:result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}&limit=${limit}`:'', 
   nextLink:result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}&limit=${limit}`:''
 }
+
+// SI LA PAGINA ES MAYOR A LAS PAGINAS QUE TENGO EN DATA ENVIO ERROR  SINO RENDERIZO LA DATA
+if (page> data.totalPages){
+  res.status(500).send('No existe esa cantidad de paginas');
+}else{
 // en la view products le envio la data con los datos de paginacion 
 res.render("products",data)
+}
+
+
 
 
 });
