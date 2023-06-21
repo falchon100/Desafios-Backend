@@ -7,9 +7,7 @@ const productsRouter = Router();
 // GETS
 productsRouter.get("/", async (req, res) => {
   const { limit } = req.query;
-
   const productos = await productDao.getProducts();
-  //const productos = await producto.readProducts();
   console.log(productos);
   limit ? res.send(productos.slice(0, limit)) : res.send(productos);
 });

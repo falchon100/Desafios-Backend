@@ -16,10 +16,13 @@ export default class CartsDao {
   }
 
   async getCartsById(id) {
-    try {
+    // SI NO EXISTE EL PRODUCTO LO MANDO COMO ERROR Y SINO ENVIO EL PRODUCTO ENCONTRADO
       let cart = await cartModel.find({ _id: id });
-      return cart;
-    } catch (error) {}
+      if (!cart){
+        throw new Error( 'no existe el carrito')
+      }else{
+        return cart
+      }
   }
 
   async addCarts() {
@@ -32,7 +35,6 @@ export default class CartsDao {
   }
 
   async addProductToCart(cid, pid) {
-    try {
       //valido si existe producto
       let products = await productAll.getProducts();
       let productId = products.find((prod) => prod.id == pid);
@@ -43,7 +45,8 @@ export default class CartsDao {
       //valido si existe carrito
       let carritoId = await cartModel.findOne({ _id: cid });
       if (!carritoId) {
-        return "no existe el carrito";
+        throw new Error( 'no existe el carrito')
+      /*   return "no existe el carrito"; */
       }
 
       //valido si ese producto existe en ese carrito y si no existe lo agrego y si existe le sumo quantity
@@ -62,9 +65,6 @@ export default class CartsDao {
         });
         await carritoId.save();
       }
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   async deleteProductToCart(cid, pid) {

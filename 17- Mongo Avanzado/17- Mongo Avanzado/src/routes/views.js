@@ -28,15 +28,16 @@ views.get("/chat", async (req, res) => {
 });
 
 views.get("/products", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit =parseInt(req.query.limit) || 10 ;
+  const page = parseInt(req.query.page) || 1; // EN CASO DE NO RECIBIR PAGINA SE MUETRA 1 
+  const limit =parseInt(req.query.limit) || 10 ; // EN CASO DE NO RECIBIR LIMITE SE MUESTRA 10
   const category  = req.query.category;
   const sort = req.query.sort;
 
+  // Genero opcciones de paginacion para poder ordenar por precio , y ademas le paso los querys 
   const options = {
     page: page, 
     limit: limit, 
-      sort: sort === 'asc' ? 'price' : sort === 'desc' ? '-price' : null, 
+    sort: { price: sort === 'desc' ? -1 : 1 },
     lean: true,
 }; 
 
@@ -47,10 +48,24 @@ if (category) {
 
 
   let result = await productModel.paginate(filter, options);
-  console.log(result);
-  result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}&limit=${limit}`:'';
-  result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}&limit=${limit}`:'';
-  res.render("products",result);
+
+  //guardo los metodos de paginate en data para poder utilizar en la vista
+const data = {
+  status: 'success',
+  payload: result.docs,
+  totalPages: result.totalPages,
+  prevPage: result.hasPrevPage ? result.prevPage : null, 
+  nextPage: result.hasNextPage ? result.nextPage : null, 
+  page: result.page,
+  hasPrevPage: result.hasPrevPage, 
+  hasNextPage: result.hasNextPage, 
+  prevLink:result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}&limit=${limit}`:'', 
+  nextLink:result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}&limit=${limit}`:''
+}
+// en la view products le envio la data con los datos de paginacion 
+res.render("products",data)
+
+
 });
 
 views.get(`/carts/:cid`, async(req, res) => {

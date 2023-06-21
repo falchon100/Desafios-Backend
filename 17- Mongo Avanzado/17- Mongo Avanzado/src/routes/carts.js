@@ -16,14 +16,9 @@ cartsRouter.get("/:cid", async (req, res) => {
   try {
     const id = req.params.cid;
     const response = await cartDao.getCartsById(id);
-    /*  const response = await cart.getCartById(id); */
-    if (response.status !== "Exitoso") {
-      return res.status(404).send(response);
-    } else {
-      res.status(200).send(response);
-    }
+    res.send(response);
   } catch (error) {
-    console.log(error);
+    res.status(404).send({ error: 'El carrito no existe' });
   }
 });
 
@@ -34,9 +29,15 @@ cartsRouter.post("/", async (req, res) => {
 });
 
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
+try {
   let cartId = req.params.cid;
   let productId = req.params.pid;
-  res.send(await cartDao.addProductToCart(cartId, productId));
+  const response = await cartDao.addProductToCart(cartId, productId)
+  res.send(response)
+} catch (error) {
+  res.status(404).send({ error: 'El carrito no existe' });
+}
+ /*  res.send(await cartDao.addProductToCart(cartId, productId)); */
 });
 
 //DELETE
