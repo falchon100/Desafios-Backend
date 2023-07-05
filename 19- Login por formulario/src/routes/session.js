@@ -17,7 +17,7 @@ sessionRouter.post('/register',async (req, res) => {
         res.render('login-error',{message:'Ya hay un usuario registrado con ese Email'})
     }
     let result = await userDao.createUser(user)
-    res.render('login', {status:'registrado correctamente'})
+    res.render('login', {message:'registrado correctamente'})
 })
 //utilizo el middleware requierelogout para que no pueda renderizar el login ya que ya hay una session activa
 sessionRouter.get('/login',requireLogout,async (req, res) => {
