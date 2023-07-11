@@ -63,7 +63,7 @@ passport.use('github',new GithubStrategy({
             last_name: "",
             email: userEmail,
             password: '',
-            age: 20
+            age: 20,
         }
         let result = await userDao.createUser(newUser)
         done(null,result) // una vez que tenemos el usuario le mandamos result
